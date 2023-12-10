@@ -1,16 +1,64 @@
 import { useState, useEffect } from "react";
 import { API_BASE_URL } from "../../config/apiConfig";
-// import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import "./style.css";
 
+async function updateFile(
+  fileId: string,
+  rawText: string,
+  summarizedText: string,
+) {
+  try {
+    await fetch(`${API_BASE_URL}/file/${fileId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, rawText, summarizedText }),
+    });
+  } catch (error) {
+    console.error("Error updating file data:", error);
+  }
+}
+
 function EditPage() {
-  //   const { uuid: userId } = useParams();
-  const [rawText, setRawText] = useState<string>("要約される前のデータ。");
-  const [summarizedText, setSummarizedText] = useState<string>("");
+  const { uuid: fileId } = useParams();
+  const [file, setFile] = useState<{
+    id: string;
+    name: string;
+    rawText: string;
+    summarizedText: string;
+  }>({
+    id: "",
+    name: "",
+    rawText: "サンプルデータ",
+    summarizedText: "サンプルの要約データ",
+  });
   const [isLoading, setIsLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+
+  useEffect(() => {
+    const fetchFile = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/file/${fileId}`);
+        const file = (await response.json()) as {
+          id: string;
+          name: string;
+          rawText: string;
+          summarizedText: string;
+        };
+        setFile(file);
+      } catch (error) {
+        console.error("Error fetching file data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchFile();
+  });
 
   useEffect(() => {
     const fetchSummarizedText = async () => {
@@ -20,12 +68,12 @@ function EditPage() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ rawText }),
+          body: JSON.stringify({ rawText: file.rawText }),
         });
         const summarizedText = (await response.json()) as {
           summarizedText: string;
         };
-        setSummarizedText(summarizedText.summarizedText);
+        setFile({ ...file, summarizedText: summarizedText.summarizedText });
       } catch (error) {
         console.error("Error fetching summarized text data:", error);
       } finally {
@@ -34,7 +82,7 @@ function EditPage() {
     };
 
     fetchSummarizedText();
-  }, [rawText]);
+  }, [file]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -69,7 +117,8 @@ function EditPage() {
     for (var i = event.resultIndex; i < event.results.length; i++) {
       transcript += event.results[i][0].transcript;
     }
-    setRawText(transcript);
+    setFile({ ...file, rawText: transcript });
+    updateFile(file.id, transcript, file.summarizedText);
   };
 
   function switchRecording(recording: boolean) {
@@ -94,8 +143,11 @@ function EditPage() {
         <textarea
           id="plain-text-textbox"
           className="expect-user-input"
-          value={rawText}
-          onChange={(e) => setRawText(e.target.value)}
+          value={file.rawText}
+          onChange={(e) => {
+            setFile({ ...file, rawText: e.target.value });
+            updateFile(file.id, e.target.value, file.summarizedText);
+          }}
         />
         <button
           id="record-button"
@@ -117,8 +169,11 @@ function EditPage() {
         <textarea
           id="note-textbox"
           className="expect-user-input"
-          value={summarizedText}
-          onInput={(e) => setSummarizedText(e.target.value)}
+          value={file.summarizedText}
+          onInput={(e) => {
+            setFile({ ...file, summarizedText: e.target.value });
+            updateFile(file.id, file.rawText, e.target.value);
+          }}
         />
         <button
           id="play-button"
@@ -126,7 +181,7 @@ function EditPage() {
           onClick={() => {
             setIsPlaying(!isPlaying);
             if (isPlaying) {
-              startPlaying(summarizedText);
+              startPlaying(file.summarizedText);
             } else {
               stopPlaying();
             }

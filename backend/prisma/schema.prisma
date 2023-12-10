@@ -18,7 +18,8 @@ model User {
 }
 
 model File {
-  id      String @id @default(uuid())
-  name    String
-  content String
+  id             String @id @default(uuid())
+  name           String
+  rawText        String
+  summarizedText String
 }
