@@ -39,8 +39,10 @@ button {
   padding: 1%;
   border-radius: 24px;
   text-align: center;
-  padding-left: 32px; /* reserved for image */
   margin: 1%;
+}
+.icon-button {
+  padding-left: 32px; /* reserved for image */
 }
 button > .icon {
   position: absolute;

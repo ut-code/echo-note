@@ -130,6 +130,7 @@ function EditPage() {
       <div id="sidebar" className="fixed">
         <button
           id="return-button"
+          className="icon-button"
           onClick={() => {
             location.href = "/files";
           }}
@@ -147,7 +148,7 @@ function EditPage() {
           }}
         />
         <button
-          id="record-button"
+          id="summarize-button"
           onClick={() => {
             fetchSummarizedText();
           }}
@@ -156,16 +157,16 @@ function EditPage() {
         </button>
         <button
           id="record-button"
-          className="horizontal-center"
+          className="horizontal-center icon-button"
           onClick={() => {
             setIsRecording(!isRecording);
             switchRecording(isRecording);
           }}
         >
           {isRecording ? (
-            <img src="./playing.png" className="icon" />
+            <img src="/playing.png" className="icon" />
           ) : (
-            <img src="./record.png" className="icon" />
+            <img src="/record.png" className="icon" />
           )}
           録音{isRecording && <span>中...</span>}
         </button>
@@ -183,7 +184,7 @@ function EditPage() {
         />
         <button
           id="play-button"
-          className="fixed"
+          className="fixed icon-button"
           onClick={() => {
             setIsPlaying(!isPlaying);
             if (isPlaying) {
