@@ -1,5 +1,22 @@
 services:
   - type: web
+    name: echo-note
+    env: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: sameorigin
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /
+    envVars:
+      - key: VITE_API_ENDPOINT
+        sync: false
+  - type: web
     name: echo-note-backend
     env: node
     region: singapore
@@ -10,7 +27,7 @@ services:
     envVars:
       - key: PORT
         value: 3000
-      - key: WEB_ORIGIN
-        value: https://ut-code.github.io
       - key: DATABASE_URL
+        sync: false
+      - key: WEB_ORIGIN
         sync: false
