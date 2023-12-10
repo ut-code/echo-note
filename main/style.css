@@ -19,6 +19,16 @@ button {
   /* break mid-word if necessary (in order to prevent overflow) */
   word-wrap: break-word;
 }
+.vertical-center {
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.horizontal-center {
+  left: 50%;
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
 
 /* left side */
 #sidebar {
@@ -27,7 +37,7 @@ button {
   width: var(--sidebar-width);
   color: inherit;
   border: 2px solid black;
-  top: 5px;
+  top: 0px;
   left: 0px;
   bottom: 0px;
   overflow-y: auto;
@@ -41,7 +51,6 @@ button {
 }
 #record-button {
   bottom: 5%;
-  right: 5%;
 }
 #settings-button {
   top: 2%;
@@ -50,6 +59,7 @@ button {
 
 /* right side */
 #main {
+  top: 0px;
   display: inline-block;
   position: absolute;
   left: var(--sidebar-width);
@@ -58,7 +68,8 @@ button {
 }
 #note-textbox {
   margin: 5%;
-  margin-top: 30;
+  margin-top: 10%;
+  min-height: 100%;
 }
 #play-button {
   bottom: 5%;
