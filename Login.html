@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login-container">
+        <h1>ログイン</h1>
+        <form id="login-form">
+            <label for="username">ユーザー名:</label>
+            <input type="text" id="username" name="username" required><br>
+
+            <label for="password">パスワード:</label>
+            <input type="password" id="password" name="password" required><br>
+
+            <button type="button" onclick="submitForm()">ログイン</button>
+        </form>
+    </div>
+
+    <script>
+        function submitForm() {
+            // ここにログインの処理を追加する
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            // 例: 簡単な確認としてアラートで表示
+            if (username === "user" && password === "pass") {
+                alert("ログイン成功！");
+            } else {
+                alert("ログイン失敗。ユーザー名とパスワードを確認してください。");
+            }
+        }
+    </script>
+
+</body>
+</html>
