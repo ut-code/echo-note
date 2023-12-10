@@ -51,4 +51,5 @@ Dolores wouldn't have eaten the meal if she had known what it actually was.
 I was very proud of my nickname throughout high school but today- I couldn't be any different to what my nickname was.
 He turned in the research paper on Friday; otherwise, he would have not passed the class.`;
 
-document.getElementById("note-textbox").innerHTML = RANDOM_LONG_SENTENCES.replaceAll("\n", "<br>");
+document.getElementById("note-textbox").innerHTML =
+  RANDOM_LONG_SENTENCES.replaceAll("\n", "<br>");
