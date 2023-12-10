@@ -86,7 +86,9 @@ function EditPage() {
   }
 
   // Web Speech APIの音声認識オブジェクトをチェック
+  // eslint-disable-next-line no-var, @typescript-eslint/no-explicit-any
   var SpeechRecognition: any = SpeechRecognition || webkitSpeechRecognition;
+  // eslint-disable-next-line no-var
   var recognition = new SpeechRecognition();
 
   // 継続的認識と暫定結果の設定
