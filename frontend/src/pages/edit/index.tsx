@@ -101,7 +101,7 @@ function EditPage() {
             location.href = "./files";
           }}
         >
-          <img src="left-arrow.png" className="icon" />
+          <img src="/left-arrow.png" className="icon" />
           戻る
         </button>
         <div
