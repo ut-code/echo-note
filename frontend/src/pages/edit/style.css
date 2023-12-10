@@ -92,6 +92,7 @@ button > .icon {
 }
 #record-button {
   bottom: 5%;
+  width: 160px;
 }
 
 /* right side */
