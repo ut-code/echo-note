@@ -34,7 +34,7 @@
 <div id="mainArea"></div>
 
 <script>
-    var crossBtn = document.getElementById('crossBtn');
+    let crossBtn = document.getElementById('crossBtn');
     crossBtn.addEventListener('click', function() {
         document.getElementById('newNote').style.display = 'block';
         document.getElementById('newFolder').style.display = 'block';
@@ -42,12 +42,12 @@
 
     ["newNote", "newFolder"].forEach(id => {
         document.getElementById(id).addEventListener('click', function() {
-            var type = id === "newNote" ? "note" : "folder";
-            var name = prompt("Please enter the name");
-            var mainArea = document.getElementById('mainArea');
+            let type = id === "newNote" ? "note" : "folder";
+            let name = prompt("Please enter the name");
+            let mainArea = document.getElementById('mainArea');
 
             if (type.toLowerCase() === 'note' || type.toLowerCase() === 'folder') {
-                var newElement = document.createElement('div');
+                let newElement = document.createElement('div');
                 newElement.className = type.toLowerCase();
                 newElement.draggable = true;
                 newElement.textContent = type + ': ' + name;
@@ -69,9 +69,9 @@
         });
     });
 
-    var dragSrcEl = null;
+    let dragSrcEl = null;
     function handleDragStart(e) {
-        this.style.opacity = '0.4';
+        this.style.opacity = '0.9';
         dragSrcEl = this;
         e.dataTransfer.effectAllowed = 'move';
         e.dataTransfer.setData('text/html', this.outerHTML);
@@ -92,16 +92,16 @@
 
         if (dragSrcEl != this) {
             this.parentNode.removeChild(dragSrcEl);
-            var dropHTML = e.dataTransfer.getData('text/html');
+            let dropHTML = e.dataTransfer.getData('text/html');
             this.insertAdjacentHTML('beforeend', dropHTML);
-            var dropElem = this.querySelector('.draggable');
+            let dropElem = this.querySelector('.draggable');
             dropElem.addEventListener('dragstart', handleDragStart, false);
             dropElem.style.opacity = '1';
         }
         return false;
     }
 
-    var mainArea = document.getElementById('mainArea');
+    let mainArea = document.getElementById('mainArea');
     mainArea.ondragover = handleDragOver;
     mainArea.ondrop = handleDrop;
 
