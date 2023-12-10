@@ -65,6 +65,11 @@ app.post("/api/file", async (request, response) => {
   response.json(file);
 });
 
+app.get("/api/file", async (request, response) => {
+  const files = await prisma.file.findMany();
+  response.json(files);
+});
+
 app.get("/api/file/:id", async (request, response) => {
   const id = request.params.id;
   const file = await prisma.file.findUnique({
