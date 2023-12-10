@@ -4,7 +4,7 @@ import { API_BASE_URL } from "../../config/apiConfig";
 
 function EditPage() {
   //   const { uuid: userId } = useParams();
-  const rawText = useState<string>("要約される前のデータ。");
+  const [rawText] = useState<string>("要約される前のデータ。");
   const [summarizedText, setSummarizedText] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
 
