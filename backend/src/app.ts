@@ -15,26 +15,6 @@ app.get("/api", (request, response) => {
   response.send("Connection successful!");
 });
 
-app.post("/api/user", async (request, response) => {
-  const { username, name, password } = request.body;
-  const user = await prisma.user.create({
-    data: {
-      username,
-      name,
-      password,
-    },
-  });
-  response.json(user);
-});
-
-app.get("/api/user/:id", async (request, response) => {
-  const id = request.params.id;
-  const user = await prisma.user.findUnique({
-    where: { id },
-  });
-  response.json(user);
-});
-
 app.post("/api/summarize-text", async (request, response) => {
   const { rawText } = request.body;
   const completion = await openai.chat.completions.create({
