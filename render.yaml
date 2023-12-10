@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: echo-note-backend
+    env: node
+    region: singapore
+    plan: free
+    rootDir: backend
+    buildCommand: npm ci && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: WEB_ORIGIN
+        value: https://ut-code.github.io
+      - key: DATABASE_URL
+        sync: false

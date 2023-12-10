@@ -1,0 +1,32 @@
+{
+  "name": "echo-note",
+  "version": "0.0.0",
+  "scripts": {
+    "setup": "npm run setup:ci && npm run setup:env",
+    "setup:ci": "npm ci && npm run frontend:ci && npm run backend:ci",
+    "frontend:ci": "cd frontend && npm ci",
+    "backend:ci": "npm ci",
+    "setup:env": "npm run env:frontend && npm run env:backend",
+    "env:frontend": "cd frontend && if [ ! -f \".env\" ]; then cp \".env.sample\" \".env\"; fi",
+    "env:backend": "cd backend && if [ ! -f \".env\" ]; then cp \".env.sample\" \".env\"; fi",
+    "frontend:dev": "cd frontend && npm run dev",
+    "backend:dev": "cd backend && npm run dev",
+    "format": "prettier --write .",
+    "lint": "npm run frontend:lint",
+    "frontend:lint": "cd frontend && npm run lint",
+    "type-check": "npm run frontend:type-check && npm run backend:type-check",
+    "frontend:type-check": "cd frontend && npm run type-check",
+    "backend:type-check": "cd backend && npm run type-check",
+    "prepare": "husky install"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "eslint-config-prettier": "^9.1.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.1.0"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  }
+}
