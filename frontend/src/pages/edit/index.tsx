@@ -58,7 +58,7 @@ He turned in the research paper on Friday; otherwise, he would have not passed t
 
 function EditPage() {
   //   const { uuid: userId } = useParams();
-  const rawText = useState<string>("要約される前のデータ。");
+  const [rawText] = useState<string>("要約される前のデータ。");
   const [summarizedText, setSummarizedText] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(true);
