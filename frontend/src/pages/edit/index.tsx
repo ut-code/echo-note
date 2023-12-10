@@ -6,6 +6,7 @@ import "./style.css";
 
 async function updateFile(
   fileId: string,
+  name: string,
   rawText: string,
   summarizedText: string,
 ) {
@@ -58,7 +59,7 @@ function EditPage() {
     };
 
     fetchFile();
-  });
+  }, [fileId]);
 
   useEffect(() => {
     const fetchSummarizedText = async () => {
@@ -82,6 +83,7 @@ function EditPage() {
     };
 
     fetchSummarizedText();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file]);
 
   if (isLoading) {
@@ -100,13 +102,14 @@ function EditPage() {
   recognition.lang = "ja-JP";
 
   // 音声認識イベントの設定
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   recognition.onresult = function (event: any) {
-    var transcript = "";
-    for (var i = event.resultIndex; i < event.results.length; i++) {
+    let transcript = "";
+    for (let i = event.resultIndex; i < event.results.length; i++) {
       transcript += event.results[i][0].transcript;
     }
     setFile({ ...file, rawText: transcript });
-    updateFile(file.id, transcript, file.summarizedText);
+    updateFile(file.id, file.name, transcript, file.summarizedText);
   };
 
   function switchRecording(recording: boolean) {
@@ -118,7 +121,7 @@ function EditPage() {
   }
   const textReader = { synth: window.speechSynthesis };
   function readText(text: string) {
-    let utterance = new SpeechSynthesisUtterance(text);
+    const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "ja-JP";
     textReader.synth.speak(utterance);
   }
@@ -143,7 +146,7 @@ function EditPage() {
           value={file.rawText}
           onChange={(e) => {
             setFile({ ...file, rawText: e.target.value });
-            updateFile(file.id, e.target.value, file.summarizedText);
+            updateFile(file.id, file.name, e.target.value, file.summarizedText);
           }}
         />
         <button
@@ -169,7 +172,7 @@ function EditPage() {
           value={file.summarizedText}
           onInput={(e) => {
             setFile({ ...file, summarizedText: e.target.value });
-            updateFile(file.id, file.rawText, e.target.value);
+            updateFile(file.id, file.name, file.rawText, e.target.value);
           }}
         />
         <button
