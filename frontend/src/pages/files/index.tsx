@@ -77,7 +77,8 @@ function AllFiles() {
         const files = (await response.json()) as {
           id: string;
           name: string;
-          content: string;
+          rawText: string;
+          summarizedText: string;
         }[];
         for (const file of files) {
           createNewNote(file.name, file.id);
@@ -124,13 +125,18 @@ function AllFiles() {
                 headers: {
                   "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ name: noteName, content: "" }),
+                body: JSON.stringify({
+                  name: noteName,
+                  rawText: "",
+                  summarizedText: "",
+                }),
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
               });
               const newNote = (await response.json()) as {
                 id: string;
                 name: string;
-                content: string;
+                rawText: string;
+                summarizedText: string;
               };
               createNewNote(noteName ?? undefined, newNote.id);
             }}

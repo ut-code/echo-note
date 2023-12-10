@@ -54,20 +54,21 @@ app.post("/api/summarize-text", async (request, response) => {
   });
 });
 
-app.post("/api/file", async (request, response) => {
-  const { name, content } = request.body;
-  const file = await prisma.file.create({
-    data: {
-      name,
-      content,
-    },
-  });
-  response.json(file);
-});
-
 app.get("/api/file", async (request, response) => {
   const files = await prisma.file.findMany();
   response.json(files);
+});
+
+app.post("/api/file", async (request, response) => {
+  const { name, rawText, summarizedText } = request.body;
+  const file = await prisma.file.create({
+    data: {
+      name,
+      rawText,
+      summarizedText,
+    },
+  });
+  response.json(file);
 });
 
 app.get("/api/file/:id", async (request, response) => {
@@ -80,12 +81,13 @@ app.get("/api/file/:id", async (request, response) => {
 
 app.put("/api/file/:id", async (request, response) => {
   const id = request.params.id;
-  const { name, content } = request.body;
+  const { name, rawText, summarizedText } = request.body;
   const file = await prisma.file.update({
     where: { id },
     data: {
       name,
-      content,
+      rawText,
+      summarizedText,
     },
   });
   response.json(file);
