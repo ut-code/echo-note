@@ -88,18 +88,6 @@ function EditPage() {
     return <div>Loading...</div>;
   }
 
-  function startPlaying(text: string) {
-    // TODO: 改善
-    // 発言を作成
-    const uttr = new SpeechSynthesisUtterance(text);
-    // 発言を再生 (発言キューに発言を追加)
-    speechSynthesis.speak(uttr);
-    speechSynthesis.addEventListener("end", () => setIsPlaying(false));
-  }
-  function stopPlaying() {
-    // TODO
-  }
-
   // Web Speech APIの音声認識オブジェクトをチェック
   var SpeechRecognition: any = SpeechRecognition || webkitSpeechRecognition;
   var recognition = new SpeechRecognition();
@@ -127,6 +115,15 @@ function EditPage() {
     } else {
       recognition.stop();
     }
+  }
+  const textReader = { synth: window.speechSynthesis };
+  function readText(text: string) {
+    let utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "ja-JP";
+    textReader.synth.speak(utterance);
+  }
+  function stopReading() {
+    textReader.synth.cancel();
   }
   return (
     <body>
@@ -181,9 +178,9 @@ function EditPage() {
           onClick={() => {
             setIsPlaying(!isPlaying);
             if (isPlaying) {
-              startPlaying(file.summarizedText);
+              readText(file.summarizedText);
             } else {
-              stopPlaying();
+              stopReading();
             }
           }}
         >
