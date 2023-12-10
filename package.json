@@ -5,7 +5,7 @@
     "setup": "npm run setup:ci && npm run setup:env",
     "setup:ci": "npm ci && npm run frontend:ci && npm run backend:ci",
     "frontend:ci": "cd frontend && npm ci",
-    "backend:ci": "npm ci",
+    "backend:ci": "cd backend && npm ci",
     "setup:env": "npm run env:frontend && npm run env:backend",
     "env:frontend": "cd frontend && if [ ! -f \".env\" ]; then cp \".env.sample\" \".env\"; fi",
     "env:backend": "cd backend && if [ ! -f \".env\" ]; then cp \".env.sample\" \".env\"; fi",
