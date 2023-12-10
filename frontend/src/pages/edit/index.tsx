@@ -37,16 +37,44 @@ function EditPage() {
   }
 
   return (
-    <div>
-      <h1>Summarized Text</h1>
-      {summarizedText ? (
-        <div>
-          <p>Summarized Text: {summarizedText}</p>
+    <body>
+      <div id="sidebar" className="fixed">
+        <button id="return-button">
+          <img src="./src/left-arrow.png" className="icon" />
+          戻る
+        </button>
+        <div
+          id="plain-text-textbox"
+          className="expect-user-input"
+          contentEditable="true"
+        >
+          plain text should appear here
         </div>
-      ) : (
-        <p>No data found.</p>
-      )}
-    </div>
+        <button id="record-button" className="horizontal-center">
+          <img src="./src/record.png" className="icon" />
+          <img src="./src/playing.png" className="icon" hidden />
+          録音
+        </button>
+      </div>
+      <div id="main">
+        <button id="settings-button" className="fixed">
+          <img src="./src/settings.png" className="icon" />
+          設定
+        </button>
+        <div
+          id="note-textbox"
+          className="expect-user-input"
+          contentEditable="true"
+        >
+          note sample
+        </div>
+        <button id="play-button" className="fixed">
+          <img src="./src/play.png" className="icon" />
+          <img src="./src/playing.png" className="icon" hidden />
+          再生
+        </button>
+      </div>
+    </body>
   );
 }
 
