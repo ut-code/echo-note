@@ -39,7 +39,7 @@ jobs:
         run: npm run build
         working-directory: frontend
         env:
-          BASE_URL: "/echo-note"
+          BASE_URL: "echo-note/"
         shell: bash
 
       - name: Upload artifact
