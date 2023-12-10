@@ -4,20 +4,50 @@
   background: var(--color-theme);
 }
 
+/*
+Available Classes
+
+(text box)
+.expect-user-input
+
+(button)
+button
+> .icon
+
+(for general use)
+.fixed
+.vertical-center
+.horizontal-center
+
+*/
+
 /* shared css */
-button {
-  position: absolute;
-  width: 5rem;
-  height: 4rem;
-  padding: 1%;
-  border-radius: 50%;
-}
-.fixed {
-  position: fixed;
-}
 .expect-user-input {
   /* break mid-word if necessary (in order to prevent overflow) */
   word-wrap: break-word;
+}
+button {
+  font-size: 24px; /* ごめんなさい */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 120px;
+  height: 48px;
+  padding: 1%;
+  border-radius: 24px;
+  text-align: center;
+  padding-left: 32px; /* reserved for image */
+  margin: 1%;
+}
+button > .icon {
+  position: absolute;
+  left: 8px;
+  width: 32px;
+  height: auto;
+}
+.fixed {
+  position: fixed;
 }
 .vertical-center {
   top: 50%;
@@ -32,29 +62,27 @@ button {
 
 /* left side */
 #sidebar {
+  background-color: lightgray;
   position: fixed;
   display: inline-block;
   width: var(--sidebar-width);
   color: inherit;
-  border: 2px solid black;
+  border-right: 2px solid black;
   top: 0px;
   left: 0px;
   bottom: 0px;
   overflow-y: auto;
 }
 #plain-text-textbox {
+  background-color: white;
   margin: 5%;
   margin-top: 15%;
   padding: 1rem;
-  height: 70%;
+  height: 65%;
   border: 1px solid black;
 }
 #record-button {
   bottom: 5%;
-}
-#settings-button {
-  top: 2%;
-  right: 5%;
 }
 
 /* right side */
@@ -64,15 +92,17 @@ button {
   position: absolute;
   left: var(--sidebar-width);
   right: 0;
-  background: lime;
 }
 #note-textbox {
   margin: 5%;
   margin-top: 10%;
   min-height: 100%;
 }
+#settings-button {
+  top: 0.8%;
+  right: 2%;
+}
 #play-button {
-  bottom: 5%;
-  right: 5%;
-  margin: auto;
+  bottom: 0.8%;
+  right: 2%;
 }
