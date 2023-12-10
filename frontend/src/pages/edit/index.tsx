@@ -6,11 +6,11 @@ import "./style.css";
 
 function EditPage() {
   //   const { uuid: userId } = useParams();
-  const [rawText] = useState<string>("要約される前のデータ。");
+  const [rawText, setRawText] = useState<string>("要約される前のデータ。");
   const [summarizedText, setSummarizedText] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [isRecording, setIsRecording] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
 
   useEffect(() => {
     const fetchSummarizedText = async () => {
@@ -40,13 +40,6 @@ function EditPage() {
     return <div>Loading...</div>;
   }
 
-  function switchRecording(recording: boolean) {
-    if (recording) {
-      // startRecording();
-    } else {
-      // stopRecording(); : TODO
-    }
-  }
   function startPlaying(text: string) {
     // TODO: 改善
     // 発言を作成
@@ -59,6 +52,33 @@ function EditPage() {
     // TODO
   }
 
+  // Web Speech APIの音声認識オブジェクトをチェック
+  var SpeechRecognition: any = SpeechRecognition || webkitSpeechRecognition;
+  var recognition = new SpeechRecognition();
+
+  // 継続的認識と暫定結果の設定
+  recognition.continuous = true;
+  recognition.interimResults = true;
+
+  // 言語の設定（ここでは日本語に設定）
+  recognition.lang = "ja-JP";
+
+  // 音声認識イベントの設定
+  recognition.onresult = function (event: any) {
+    var transcript = "";
+    for (var i = event.resultIndex; i < event.results.length; i++) {
+      transcript += event.results[i][0].transcript;
+    }
+    setRawText(transcript);
+  };
+
+  function switchRecording(recording: boolean) {
+    if (recording) {
+      recognition.start();
+    } else {
+      recognition.stop();
+    }
+  }
   return (
     <body>
       <div id="sidebar" className="fixed">
@@ -71,13 +91,12 @@ function EditPage() {
           <img src="/left-arrow.png" className="icon" />
           戻る
         </button>
-        <div
+        <textarea
           id="plain-text-textbox"
           className="expect-user-input"
-          contentEditable="true"
-        >
-          plain text should appear here
-        </div>
+          value={rawText}
+          onChange={(e) => setRawText(e.target.value)}
+        />
         <button
           id="record-button"
           className="horizontal-center"
@@ -91,17 +110,16 @@ function EditPage() {
           ) : (
             <img src="./record.png" className="icon" />
           )}
-          録音
+          録音{isRecording && <span>中...</span>}
         </button>
       </div>
       <div id="main">
-        <div
+        <textarea
           id="note-textbox"
           className="expect-user-input"
-          contentEditable="true"
-        >
-          {summarizedText}
-        </div>
+          value={summarizedText}
+          onInput={(e) => setSummarizedText(e.target.value)}
+        />
         <button
           id="play-button"
           className="fixed"
