@@ -8,25 +8,32 @@
   <body>
     <div id="sidebar" class="fixed">
       <button id="return-button">
-        <img src="./left-arrow.png" class="icon" />
+        <img src="./src/left-arrow.png" class="icon" />
         戻る
       </button>
-      <div id="plain-text-textbox" class="expect-user-input">
+      <div
+        id="plain-text-textbox"
+        class="expect-user-input"
+        contenteditable="true">
         plain text should appear here
       </div>
       <button id="record-button" class="horizontal-center">
-        <img src="./record.png" class="icon" />
+        <img src="./src/record.png" class="icon" />
+        <img src="./src/playing.png" class="icon" hidden />
         録音
       </button>
     </div>
     <div id="main">
       <button id="settings-button" class="fixed">
-        <img src="./settings.png" class="icon" />
+        <img src="./src/settings.png" class="icon" />
         設定
       </button>
-      <div id="note-textbox" class="expect-user-input">note sample</div>
+      <div id="note-textbox" class="expect-user-input" contenteditable="true">
+        note sample
+      </div>
       <button id="play-button" class="fixed">
-        <img src="./play.png" class="icon" />
+        <img src="./src/play.png" class="icon" />
+        <img src="./src/playing.png" class="icon" hidden />
         再生
       </button>
     </div>
