@@ -32,18 +32,18 @@ button {
   bottom: 0px;
   overflow-y: auto;
 }
-#plain-text {
+#plain-text-textbox {
   margin: 5%;
   margin-top: 15%;
   padding: 1rem;
   height: 70%;
   border: 1px solid black;
 }
-#record {
+#record-button {
   bottom: 5%;
   right: 5%;
 }
-#settings {
+#settings-button {
   top: 2%;
   right: 5%;
 }
@@ -56,11 +56,11 @@ button {
   right: 0;
   background: lime;
 }
-#note {
+#note-textbox {
   margin: 5%;
   margin-top: 30;
 }
-#play {
+#play-button {
   bottom: 5%;
   right: 5%;
   margin: auto;
