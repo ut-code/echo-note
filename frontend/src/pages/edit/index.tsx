@@ -33,12 +33,32 @@ function EditPage() {
   }>({
     id: "",
     name: "",
-    rawText: "サンプルデータ",
-    summarizedText: "サンプルの要約データ",
+    rawText: "取得中です。",
+    summarizedText: "要約データを生成中です。",
   });
   const [isLoading, setIsLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+
+  const fetchSummarizedText = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/summarize-text`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ rawText: file.rawText }),
+      });
+      const summarizedText = (await response.json()) as {
+        summarizedText: string;
+      };
+      setFile({ ...file, summarizedText: summarizedText.summarizedText });
+    } catch (error) {
+      console.error("Error fetching summarized text data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     const fetchFile = async () => {
@@ -60,31 +80,6 @@ function EditPage() {
 
     fetchFile();
   }, [fileId]);
-
-  useEffect(() => {
-    const fetchSummarizedText = async () => {
-      try {
-        const response = await fetch(`${API_BASE_URL}/summarize-text`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ rawText: file.rawText }),
-        });
-        const summarizedText = (await response.json()) as {
-          summarizedText: string;
-        };
-        setFile({ ...file, summarizedText: summarizedText.summarizedText });
-      } catch (error) {
-        console.error("Error fetching summarized text data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchSummarizedText();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [file]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -134,7 +129,7 @@ function EditPage() {
         <button
           id="return-button"
           onClick={() => {
-            location.href = "./files";
+            location.href = "/files";
           }}
         >
           <img src="/left-arrow.png" className="icon" />
@@ -151,6 +146,14 @@ function EditPage() {
         />
         <button
           id="record-button"
+          onClick={() => {
+            fetchSummarizedText();
+          }}
+        >
+          要約
+        </button>
+        <button
+          id="record-button"
           className="horizontal-center"
           onClick={() => {
             setIsRecording(!isRecording);
@@ -165,6 +168,7 @@ function EditPage() {
           録音{isRecording && <span>中...</span>}
         </button>
       </div>
+
       <div id="main">
         <textarea
           id="note-textbox"
