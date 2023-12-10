@@ -105,8 +105,8 @@ function EditPage() {
     for (let i = event.resultIndex; i < event.results.length; i++) {
       transcript += event.results[i][0].transcript;
     }
-    setFile({ ...file, rawText: transcript });
-    updateFile(file.id, file.name, transcript, file.summarizedText);
+    setFile({ ...file, rawText: file.rawText + transcript });
+    updateFile(file.id, file.name, file.rawText, file.summarizedText);
   };
 
   function switchRecording(recording: boolean) {
