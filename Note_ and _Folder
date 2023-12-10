@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Note and Folder Manager</title>
+    <style>
+        #crossBtn {
+            margin: 20px;
+            cursor: pointer;
+        }
+        
+        #newNote, #newFolder {
+            display: none;
+            margin: 20px;
+        }
+
+        .note, .folder {
+            margin: 20px;
+            padding: 10px;
+            border: 2px solid #888;
+        }
+
+        .folder {
+            border-color: #555;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div id="crossBtn" style="border: 1px solid #888; display:inline-block;">+</div>
+    <button id="newNote" style="margin: 20px;">New Note</button>
+    <button id="newFolder" style="margin: 20px;">New Folder</button>
+</div>
+
+<div id="mainArea"></div>
+
+<script>
+    var crossBtn = document.getElementById('crossBtn');
+    crossBtn.addEventListener('click', function() {
+        document.getElementById('newNote').style.display = 'block';
+        document.getElementById('newFolder').style.display = 'block';
+    });
+
+    ["newNote", "newFolder"].forEach(id => {
+        document.getElementById(id).addEventListener('click', function() {
+            var type = id === "newNote" ? "note" : "folder";
+            var name = prompt("Please enter the name");
+            var mainArea = document.getElementById('mainArea');
+
+            if (type.toLowerCase() === 'note' || type.toLowerCase() === 'folder') {
+                var newElement = document.createElement('div');
+                newElement.className = type.toLowerCase();
+                newElement.draggable = true;
+                newElement.textContent = type + ': ' + name;
+                newElement.style.position = "relative";
+                newElement.style.marginTop = "10px";
+                newElement.addEventListener('dragstart', handleDragStart, false);
+
+                if (type.toLowerCase() === 'note') {
+                    newElement.style.backgroundColor = "#eee";
+                    newElement.addEventListener('dragstart', handleDragStart, false);
+                } else {
+                    newElement.style.backgroundColor = "#ddd";
+                    newElement.ondragover = handleDragOver;
+                    newElement.ondrop = handleDrop;
+                }
+
+                mainArea.appendChild(newElement);
+            }
+        });
+    });
+
+    var dragSrcEl = null;
+    function handleDragStart(e) {
+        this.style.opacity = '0.4';
+        dragSrcEl = this;
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', this.outerHTML);
+    }
+
+    function handleDragOver(e) {
+        if (e.preventDefault) {
+            e.preventDefault();
+        }
+        e.dataTransfer.dropEffect = 'move';
+        return false;
+    }
+
+    function handleDrop(e) {
+        if (e.stopPropagation) {
+            e.stopPropagation();
+        }
+
+        if (dragSrcEl != this) {
+            this.parentNode.removeChild(dragSrcEl);
+            var dropHTML = e.dataTransfer.getData('text/html');
+            this.insertAdjacentHTML('beforeend', dropHTML);
+            var dropElem = this.querySelector('.draggable');
+            dropElem.addEventListener('dragstart', handleDragStart, false);
+            dropElem.style.opacity = '1';
+        }
+        return false;
+    }
+
+    var mainArea = document.getElementById('mainArea');
+    mainArea.ondragover = handleDragOver;
+    mainArea.ondrop = handleDrop;
+
+</script>
+</body>
+</html>
