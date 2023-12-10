@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Note and Folder Manager</title>
     <style>
-        #crossBtn {
-            margin: 20px;
-            cursor: pointer;
-        }
-        
-        #newNote, #newFolder {
-            display: none;
+        #newNote,
+        #newFolder {
+            display: block;
             margin: 20px;
         }
 
-        .note, .folder {
+        .note,
+        .folder {
             margin: 20px;
             padding: 10px;
             border: 2px solid #888;
@@ -24,87 +22,83 @@
         }
     </style>
 </head>
+
 <body>
-<div>
-    <div id="crossBtn" style="border: 1px solid #888; display:inline-block;">+</div>
-    <button id="newNote" style="margin: 20px;">New Note</button>
-    <button id="newFolder" style="margin: 20px;">New Folder</button>
-</div>
+    <div>
+        <button id="newNote" style="margin: 20px;">New Note</button>
+        <button id="newFolder" style="margin: 20px;">New Folder</button>
+    </div>
 
-<div id="mainArea"></div>
+    <div id="mainArea"></div>
 
-<script>
-    let crossBtn = document.getElementById('crossBtn');
-    crossBtn.addEventListener('click', function() {
-        document.getElementById('newNote').style.display = 'block';
-        document.getElementById('newFolder').style.display = 'block';
-    });
+    <script>
+        ["newNote", "newFolder"].forEach(id => {
+            document.getElementById(id).addEventListener('click', function () {
+                let type = id === "newNote" ? "note" : "folder";
+                let name = prompt("Please enter the name");
+                let mainArea = document.getElementById('mainArea');
 
-    ["newNote", "newFolder"].forEach(id => {
-        document.getElementById(id).addEventListener('click', function() {
-            let type = id === "newNote" ? "note" : "folder";
-            let name = prompt("Please enter the name");
-            let mainArea = document.getElementById('mainArea');
-
-            if (type.toLowerCase() === 'note' || type.toLowerCase() === 'folder') {
-                let newElement = document.createElement('div');
-                newElement.className = type.toLowerCase();
-                newElement.draggable = true;
-                newElement.textContent = type + ': ' + name;
-                newElement.style.position = "relative";
-                newElement.style.marginTop = "10px";
-                newElement.addEventListener('dragstart', handleDragStart, false);
-
-                if (type.toLowerCase() === 'note') {
-                    newElement.style.backgroundColor = "#eee";
+                if (type.toLowerCase() === 'note' || type.toLowerCase() === 'folder') {
+                    let newElement = document.createElement('div');
+                    newElement.className = type.toLowerCase();
+                    newElement.draggable = true;
+                    newElement.textContent = type + ': ' + name;
+                    newElement.style.position = "relative";
+                    newElement.style.marginTop = "10px";
                     newElement.addEventListener('dragstart', handleDragStart, false);
-                } else {
-                    newElement.style.backgroundColor = "#ddd";
-                    newElement.ondragover = handleDragOver;
-                    newElement.ondrop = handleDrop;
+
+                    if (type.toLowerCase() === 'note') {
+                        newElement.style.backgroundColor = "#eee";
+                        newElement.addEventListener('dragstart', handleDragStart, false);
+                    } else {
+                        newElement.style.backgroundColor = "#ddd";
+                        newElement.ondragover = handleDragOver;
+                        newElement.ondrop = handleDrop;
+                    }
+
+                    mainArea.appendChild(newElement);
                 }
-
-                mainArea.appendChild(newElement);
-            }
+            });
         });
-    });
 
-    let dragSrcEl = null;
-    function handleDragStart(e) {
-        this.style.opacity = '0.9';
-        dragSrcEl = this;
-        e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/html', this.outerHTML);
-    }
+        let dragSrcEl = null;
 
-    function handleDragOver(e) {
-        if (e.preventDefault) {
-            e.preventDefault();
-        }
-        e.dataTransfer.dropEffect = 'move';
-        return false;
-    }
-
-    function handleDrop(e) {
-        if (e.stopPropagation) {
-            e.stopPropagation();
+        function handleDragStart(e) {
+            this.style.opacity = '0.9';
+            dragSrcEl = this;
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.outerHTML);
         }
 
-        if (dragSrcEl != this) {
-            this.parentNode.removeChild(dragSrcEl);
-            let dropHTML = e.dataTransfer.getData('text/html');
-            this.insertAdjacentHTML('beforeend', dropHTML);
-            let dropElem = this.querySelector('.draggable');
-            dropElem.addEventListener('dragstart', handleDragStart, false);
-            dropElem.style.opacity = '1';
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+            return false;
         }
-        return false;
-    }
 
-    let mainArea = document.getElementById('mainArea');
-    mainArea.ondragover = handleDragOver;
-    mainArea.ondrop = handleDrop;
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
 
-</script>
+            if (dragSrcEl != this) {
+                this.parentNode.removeChild(dragSrcEl);
+                let dropHTML = e.dataTransfer.getData('text/html');
+                this.insertAdjacentHTML('beforeend', dropHTML);
+                let dropElem = this.querySelector('.draggable');
+                dropElem.addEventListener('dragstart', handleDragStart, false);
+                dropElem.style.opacity = '1';
+            }
+            return false;
+        }
+
+        let mainArea = document.getElementById('mainArea');
+        mainArea.ondragover = handleDragOver;
+        mainArea.ondrop = handleDrop;
+
+    </script>
 </body>
+
 </html>
