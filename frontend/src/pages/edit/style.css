@@ -1,0 +1,117 @@
+:root {
+  --color-theme: white;
+  --sidebar-width: 40%;
+  background: var(--color-theme);
+
+  --highlight-color: orange;
+}
+
+/*
+Available Classes
+
+(text box)
+.expect-user-input
+
+(button)
+button
+> .icon
+
+(for general use)
+.fixed
+.vertical-center
+.horizontal-center
+
+*/
+
+/* shared css */
+.expect-user-input {
+  /* break mid-word if necessary (in order to prevent overflow) */
+  word-wrap: break-word;
+}
+button {
+  font-size: 24px; /* ごめんなさい */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 120px;
+  height: 48px;
+  padding: 1%;
+  border-radius: 24px;
+  text-align: center;
+  padding-left: 32px; /* reserved for image */
+  margin: 1%;
+}
+button > .icon {
+  position: absolute;
+  left: 8px;
+  width: 32px;
+  height: auto;
+}
+:focus {
+  border: 4px solid var(--highlight-color);
+  box-shadow: 0px 0px 5px 5px var(--highlight-color);
+}
+.fixed {
+  position: fixed;
+}
+.vertical-center {
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.horizontal-center {
+  left: 50%;
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+/* left side */
+#sidebar {
+  background-color: lightgray;
+  position: fixed;
+  display: inline-block;
+  width: var(--sidebar-width);
+  color: inherit;
+  border-right: 2px solid black;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  overflow-y: auto;
+}
+#plain-text-textbox {
+  background-color: white;
+  margin: 5%;
+  margin-top: 15%;
+  padding: 16px;
+  height: 65%;
+  border: 1px solid black;
+}
+#record-button {
+  bottom: 5%;
+}
+
+/* right side */
+#main {
+  top: 0px;
+  display: inline-block;
+  position: absolute;
+  left: var(--sidebar-width);
+  right: 0;
+}
+#note-textbox {
+  background-color: inherit;
+  border-width: 0px;
+  margin: 5%;
+  margin-top: 10%;
+  padding: 8px;
+  min-height: 100%;
+}
+#settings-button {
+  top: 0.8%;
+  right: 2%;
+}
+#play-button {
+  bottom: 0.8%;
+  right: 2%;
+}
